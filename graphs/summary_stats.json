@@ -1,0 +1,22 @@
+{
+  "nvd": {
+    "total_all_time": 308859,
+    "total_2025": 48124,
+    "total_2024": 39962,
+    "yoy_change": 20.424403183023873,
+    "cvss_v3_coverage_2025": 91.2850137145707,
+    "cwe_coverage_2025": 92.26789128085778,
+    "avg_cvss_2025": 6.600880946961073,
+    "critical_2025": 3980,
+    "high_2025": 14978
+  },
+  "cvelist": {
+    "total_all_time": 308912,
+    "total_2025": 48168,
+    "published_2025": "48168",
+    "rejected_2025": "0",
+    "unique_cnas_2025": 365,
+    "unique_vendors_2025": 9626,
+    "top_cna": "Patchstack"
+  }
+}
