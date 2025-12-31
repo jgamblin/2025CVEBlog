@@ -11,12 +11,12 @@
     "high_2025": 14978
   },
   "cvelist": {
-    "total_all_time": 308912,
-    "total_2025": 48168,
-    "published_2025": "48168",
+    "total_all_time": 308929,
+    "total_2025": 48185,
+    "published_2025": "48185",
     "rejected_2025": "0",
     "unique_cnas_2025": 365,
-    "unique_vendors_2025": 9626,
+    "unique_vendors_2025": 9632,
     "top_cna": "Patchstack"
   }
 }

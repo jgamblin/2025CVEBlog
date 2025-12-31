@@ -199,6 +199,19 @@ def parse_nvd_data(nvd_data):
                                '** disputed **' in desc_lower or
                                'this cve id has been rejected' in desc_lower)
             
+            # Extract vendor and product from CPE strings
+            # CPE format: cpe:2.3:a:vendor:product:version:...
+            vendor = None
+            product = None
+            for cpe in cpes:
+                if cpe:
+                    parts = cpe.split(':')
+                    if len(parts) >= 5:
+                        vendor = parts[3] if parts[3] != '*' else None
+                        product = parts[4] if parts[4] != '*' else None
+                        if vendor and product:
+                            break
+            
             records.append({
                 'cve_id': cve_id,
                 'year': year,
@@ -213,6 +226,8 @@ def parse_nvd_data(nvd_data):
                 'cwe': cwe,
                 'cpe_count': len(cpes),
                 'has_cpe': len(cpes) > 0,
+                'vendor': vendor,
+                'product': product,
                 'ref_count': ref_count,
                 'vuln_status': vuln_status,
                 'is_rejected': is_rejected

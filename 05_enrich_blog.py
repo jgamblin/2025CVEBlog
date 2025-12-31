@@ -26,8 +26,7 @@ BACKUP_FILE = Path("blog_original.md")
 # Gemini model selection
 MODEL_NAME = "gemini-2.0-flash"  # Updated model name
 
-# Rate limiting for free tier (15 RPM = 1 request per 4 seconds minimum)
-REQUEST_DELAY = 5  # seconds between requests to stay safely under free tier limits
+# Rate limiting removed - using paid tier
 
 def get_api_key():
     """Get Gemini API key from environment variable"""
@@ -87,20 +86,28 @@ def should_enhance_section(section):
     return not any(kw in title_lower for kw in skip_keywords)
 
 def create_enhancement_prompt(section_title, section_content):
-    """Create a prompt for enhancing a specific section"""
-    return f"""You are a cybersecurity expert and technical writer. Enhance the following blog section about CVE data.
+    """Create a prompt for enhancing a specific section with Jerry Gamblin voice"""
+    return f"""You are Jerry Gamblin. You write the popular 'Curiosity in Practice' security blog.
+
+YOUR VOICE:
+- Direct & Personal: Use 'I' and 'We'. (e.g., 'I noticed a trend...' or 'We saw a massive spike...').
+- Data-First: Never use fluffy adjectives like 'staggering', 'unprecedented', 'landscape', or 'realm'. Let the numbers speak.
+- Concise: Short paragraphs. No filler. If a chart explains it, don't describe the bars, explain the implication.
+
+TASK: Enhance the provided section. Keep ALL statistics and markdown tables exactly as they are.
+
+ADD MARKDOWN LINKS for technical terms:
+- Link CWEs to: https://cwe.mitre.org/data/definitions/{{number}}.html
+  Example: [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
+- Link Vendors/Products to: https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor={{name}}
+  Example: [Microsoft](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=microsoft)
 
 RULES:
 1. Keep ALL statistics, numbers, and data points EXACTLY as they are
-2. Keep ALL markdown formatting (headers, tables, images, links) intact
+2. Keep ALL markdown formatting (headers, tables, images) intact
 3. Do NOT change image paths or table data
-4. Add insightful commentary and context where appropriate
-5. Make the prose more engaging while maintaining a professional tone
-6. Keep the same overall structure
-7. Add transitional sentences to improve flow
-8. You may add brief explanatory notes for technical terms
-9. Keep additions concise - don't bloat the content excessively
-10. Return the enhanced markdown, nothing else
+4. Do NOT increase text length by more than 15%
+5. Return the enhanced markdown only, no explanations
 
 SECTION TITLE: {section_title}
 
@@ -124,7 +131,7 @@ def enhance_section_with_gemini(model, section):
             response = model.generate_content(
                 prompt,
                 generation_config={
-                    "temperature": 0.7,  # Some creativity but not too wild
+                    "temperature": 0.5,  # Conservative for analytical tone
                     "max_output_tokens": 2048,
                 }
             )
@@ -161,14 +168,22 @@ def enhance_section_with_gemini(model, section):
     return section["content"]
 
 def enhance_executive_summary(model, blog_text):
-    """Specifically enhance the executive summary with compelling narrative"""
-    prompt = f"""You are a cybersecurity expert writing a year-end CVE review blog. 
-Create a compelling executive summary that:
-1. Hooks the reader immediately
-2. Highlights the most important 2025 findings
-3. Provides context for why these numbers matter
+    """Specifically enhance the executive summary with Jerry Gamblin voice"""
+    prompt = f"""You are Jerry Gamblin. You write the popular 'Curiosity in Practice' security blog.
+
+YOUR VOICE:
+- Direct & Personal: Use 'I' and 'We'. (e.g., 'I noticed a trend...' or 'We saw a massive spike...').
+- Data-First: Never use fluffy adjectives like 'staggering', 'unprecedented', 'landscape', or 'realm'. Let the numbers speak.
+- Concise: Short paragraphs. No filler.
+
+Create an executive summary that:
+1. Opens with the key finding immediately (no generic intros)
+2. Uses personal voice ('I analyzed...', 'We see that...')
+3. Highlights the most important 2025 data points
 4. Maintains all original statistics EXACTLY
-5. Is concise (3-4 paragraphs max)
+5. Does NOT expand beyond 15% of original length
+6. Links CWEs to https://cwe.mitre.org/data/definitions/{{number}}.html
+7. Links vendors to https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor={{name}}
 
 Original executive summary to enhance (keep all statistics):
 {blog_text}
@@ -178,7 +193,7 @@ Write the enhanced executive summary in markdown:"""
     try:
         response = model.generate_content(
             prompt,
-            generation_config={"temperature": 0.7, "max_output_tokens": 1024}
+            generation_config={"temperature": 0.6, "max_output_tokens": 1024}
         )
         return response.text.strip()
     except Exception as e:
@@ -186,8 +201,13 @@ Write the enhanced executive summary in markdown:"""
         return blog_text
 
 def enhance_conclusions(model, blog_text, stats_context):
-    """Enhance the conclusions with forward-looking insights"""
-    prompt = f"""You are a cybersecurity expert writing the conclusions for a 2025 CVE review.
+    """Enhance the conclusions with Jerry Gamblin voice"""
+    prompt = f"""You are Jerry Gamblin. You write the popular 'Curiosity in Practice' security blog.
+
+YOUR VOICE:
+- Direct & Personal: Use 'I' and 'We'. (e.g., 'I expect...', 'What I'm watching...').
+- Data-First: Never use fluffy adjectives like 'staggering', 'unprecedented', 'landscape', or 'realm'. Let the numbers speak.
+- Concise: Short paragraphs. No filler.
 
 The blog has covered:
 {stats_context}
@@ -196,18 +216,20 @@ Current conclusions section:
 {blog_text}
 
 Enhance the conclusions to:
-1. Summarize key findings compellingly
-2. Add forward-looking predictions for 2026
+1. Summarize key findings in personal voice
+2. Add 2-3 forward-looking predictions for 2026 based on trends
 3. Provide actionable insights for security teams
 4. Keep all original statistics intact
-5. Maintain professional but engaging tone
+5. Do NOT expand beyond 15% of original length
+6. Link CWEs to https://cwe.mitre.org/data/definitions/{{number}}.html
+7. Link vendors to https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor={{name}}
 
 Write enhanced conclusions in markdown:"""
     
     try:
         response = model.generate_content(
             prompt,
-            generation_config={"temperature": 0.7, "max_output_tokens": 1500}
+            generation_config={"temperature": 0.6, "max_output_tokens": 1500}
         )
         return response.text.strip()
     except Exception as e:
@@ -261,11 +283,6 @@ def main():
             print(f"  ✓ Enhancing ({enhanced_count}/{total_sections}): {section_name}")
             enhanced_content = enhance_section_with_gemini(model, section)
             enhanced_sections.append(enhanced_content)
-            
-            # Rate limiting delay for free tier (skip delay after last section)
-            if enhanced_count < total_sections:
-                print(f"    ⏳ Waiting {REQUEST_DELAY}s (free tier rate limit)...")
-                time.sleep(REQUEST_DELAY)
         else:
             print(f"  - Keeping: {section_name}")
             enhanced_sections.append(section["content"])

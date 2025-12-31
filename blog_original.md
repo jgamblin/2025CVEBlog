@@ -73,7 +73,7 @@ The **average CVSS score for 2025 was 6.60**, with a **median of 6.50**.
 
 ### CVSS Trends Over Time
 
-![CVSS by Year](graphs/11_cvss_by_year.png)
+![CVSS by Year](graphs/13_cvss_by_year.png)
 
 ---
 
@@ -87,10 +87,10 @@ The Common Weakness Enumeration (CWE) categorizes the types of security weakness
 
 | Rank | CWE | Name | Count |
 |------|-----|------|-------|
-| 1 | CWE-79 | Cross-site Scripting (XSS) | 8,183 |
+| 1 | CWE-79 | XSS | 8,183 |
 | 2 | CWE-74 |  | 2,559 |
 | 3 | CWE-862 | Missing Authorization | 2,215 |
-| 4 | CWE-352 | Cross-Site Request Forgery | 1,893 |
+| 4 | CWE-352 | CSRF | 1,893 |
 | 5 | CWE-89 | SQL Injection | 1,704 |
 
 ---
@@ -106,7 +106,7 @@ CVE Numbering Authorities are organizations authorized to assign CVE IDs. The ec
 | Rank | CNA | CVEs Assigned |
 |------|-----|---------------|
 | 1 | Patchstack | 7,007 |
-| 2 | VulDB | 5,900 |
+| 2 | VulDB | 5,902 |
 | 3 | Linux | 5,686 |
 | 4 | mitre | 5,207 |
 | 5 | Wordfence | 3,451 |
@@ -119,7 +119,7 @@ In total, **365 unique CNAs** assigned CVEs in 2025.
 
 Which vendors had the most CVEs assigned to their products in 2025?
 
-![Top Vendors](graphs/10_top_vendors.png)
+![Top Vendors](graphs/14_top_vendors.png)
 
 ### Top 5 Vendors in 2025
 
@@ -153,7 +153,7 @@ Not all CVEs have complete metadata. Here's how data quality has evolved over th
 
 Not all CVE IDs remain active—some are rejected due to duplicates, disputes, or invalid submissions. Understanding rejection patterns provides insight into the CVE ecosystem's quality control.
 
-![Rejected CVEs](graphs/12_rejected_cves.png)
+![Rejected CVEs](graphs/10_rejected_cves.png)
 
 ### 2025 Rejection Statistics
 
@@ -161,7 +161,7 @@ Not all CVE IDs remain active—some are rejected due to duplicates, disputes, o
 |--------|-------|
 | Rejected CVEs in 2025 | 1,787 |
 | 2025 Rejection Rate | 3.58% |
-| Total Rejected (All Time) | 15,639 |
+| Total Rejected (All Time) | 16,357 |
 
 CVE rejections occur for several reasons:
 - **Duplicates**: The same vulnerability assigned multiple CVE IDs
@@ -194,7 +194,7 @@ This analysis uses two primary data sources:
 1. **NVD JSON** - National Vulnerability Database export from [nvd.handsonhacking.org](https://nvd.handsonhacking.org/nvd.json)
 2. **CVE List V5** - Official CVE records from [GitHub CVEProject/cvelistV5](https://github.com/CVEProject/cvelistV5)
 
-All graphs and statistics were generated using Python with pandas, matplotlib, and seaborn.
+All graphs and statistics were generated using Python with pandas and matplotlib.
 
 ---
 
