@@ -52,6 +52,52 @@ CVE publications varied throughout 2025, with **Dec** being the peak month at **
 
 ---
 
+## Publication Patterns by Day of Week
+
+Looking at which days CVEs are published reveals interesting patterns. **Tue** saw the most publications with **11,754 CVEs**.
+
+![CVEs by Day of Week](graphs/16_day_of_week.png)
+
+The "Patch Tuesday" effect is visible: Tuesday accounts for **11,754 CVEs**. Weekdays average **8,906** CVEs compared to weekends at **1,796**.
+
+---
+
+## Busiest Days of 2025
+
+Some days saw massive spikes in CVE publications:
+
+![Top Days](graphs/17_top_days.png)
+
+### Top 5 Busiest Days
+
+| Rank | Date | CVE Count |
+|------|------|----------|
+| 1 | 2025-02-26 | 793 |
+| 2 | 2025-12-09 | 660 |
+| 3 | 2025-12-24 | 494 |
+| 4 | 2025-06-10 | 485 |
+| 5 | 2025-01-14 | 478 |
+
+---
+
+## Most Vulnerable Products
+
+Beyond vendors, specific products with the most CVEs in 2025:
+
+![Top Products](graphs/18_top_products.png)
+
+### Top 5 Products
+
+| Rank | Product | CVE Count |
+|------|---------|----------|
+| 1 | Linux Kernel | 3,647 |
+| 2 | Android | 509 |
+| 3 | Windows 10 1507 | 435 |
+| 4 | Experience Manager | 377 |
+| 5 | Macos | 362 |
+
+---
+
 ## CVSS Score Analysis
 
 The Common Vulnerability Scoring System (CVSS) helps standardize severity assessments. Here's how 2025 CVEs were distributed across the scoring range.

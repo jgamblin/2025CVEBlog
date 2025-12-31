@@ -48,6 +48,9 @@ graph_cve_id_ranges = graphs_module.graph_cve_id_ranges
 graph_cvss_by_year = graphs_module.graph_cvss_by_year
 graph_top_vendors = graphs_module.graph_top_vendors
 graph_time_to_publish = graphs_module.graph_time_to_publish
+graph_day_of_week = graphs_module.graph_day_of_week
+graph_top_days = graphs_module.graph_top_days
+graph_top_products = graphs_module.graph_top_products
 
 
 # =============================================================================
@@ -187,7 +190,7 @@ def calculate_stats(df, cvelist_df, full_nvd_df=None, full_cvelist_df=None):
 # =============================================================================
 # BLOG GENERATION
 # =============================================================================
-def generate_blog(stats, top_cwes, top_cnas, top_vendors, peak_month, peak_count, cumulative_total, rejected_stats=None):
+def generate_blog(stats, top_cwes, top_cnas, top_vendors, peak_month, peak_count, cumulative_total, rejected_stats=None, day_stats=None, top_days=None, top_products=None):
     """Generate the Markdown blog post"""
     
     blog = f"""# 2025 CVE Data Review
@@ -253,6 +256,56 @@ Looking at the cumulative total, we've now surpassed **{cumulative_total:,} CVEs
 
 ---
 """
+
+    # Day of Week Analysis (Patch Tuesday effect)
+    if day_stats:
+        blog += f"""
+## Publication Patterns by Day of Week
+
+Looking at which days CVEs are published reveals interesting patterns. **{day_stats['peak_day']}** saw the most publications with **{day_stats['peak_count']:,} CVEs**.
+
+![CVEs by Day of Week](graphs/16_day_of_week.png)
+
+The "Patch Tuesday" effect is visible: Tuesday accounts for **{day_stats['tuesday_count']:,} CVEs**. Weekdays average **{day_stats['weekday_avg']:,.0f}** CVEs compared to weekends at **{day_stats['weekend_avg']:,.0f}**.
+
+---
+"""
+
+    # Top Days
+    if top_days and len(top_days) > 0:
+        blog += """
+## Busiest Days of 2025
+
+Some days saw massive spikes in CVE publications:
+
+![Top Days](graphs/17_top_days.png)
+
+### Top 5 Busiest Days
+
+| Rank | Date | CVE Count |
+|------|------|----------|
+"""
+        for i, (date, count) in enumerate(top_days[:5], 1):
+            blog += f"| {i} | {date} | {count:,} |\n"
+        blog += "\n---\n"
+
+    # Top Products
+    if top_products and len(top_products) > 0:
+        blog += """
+## Most Vulnerable Products
+
+Beyond vendors, specific products with the most CVEs in 2025:
+
+![Top Products](graphs/18_top_products.png)
+
+### Top 5 Products
+
+| Rank | Product | CVE Count |
+|------|---------|----------|
+"""
+        for i, (product, count) in enumerate(top_products[:5], 1):
+            blog += f"| {i} | {product} | {count:,} |\n"
+        blog += "\n---\n"
 
     blog += f"""
 ## CVSS Score Analysis
@@ -503,10 +556,24 @@ def main():
     if top_vendors is None:
         top_vendors = []
     
+    # Day of Week Analysis - returns (fig, day_stats_dict)
+    _, day_stats = graph_day_of_week(df, save_path=GRAPHS_DIR / '16_day_of_week.png')
+    
+    # Top Days Analysis - returns (fig, top_days_list)
+    _, top_days = graph_top_days(df, save_path=GRAPHS_DIR / '17_top_days.png')
+    if top_days is None:
+        top_days = []
+    
+    # Top Products Analysis - returns (fig, top_products_list)
+    _, top_products = graph_top_products(df, save_path=GRAPHS_DIR / '18_top_products.png')
+    if top_products is None:
+        top_products = []
+    
     # Generate blog
     print("\nGenerating blog.md...")
     blog_content = generate_blog(stats, top_cwes, top_cnas, top_vendors, 
-                                  peak_month, peak_count, cumulative_total, rejected_stats)
+                                  peak_month, peak_count, cumulative_total, rejected_stats,
+                                  day_stats, top_days, top_products)
     
     with open('blog.md', 'w') as f:
         f.write(blog_content)

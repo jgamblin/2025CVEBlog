@@ -106,7 +106,7 @@ RULES:
 1. Keep ALL statistics, numbers, and data points EXACTLY as they are
 2. Keep ALL markdown formatting (headers, tables, images) intact
 3. Do NOT change image paths or table data
-4. Do NOT increase text length by more than 15%
+4. Do NOT increase text length by more than 10%
 5. Return the enhanced markdown only, no explanations
 
 SECTION TITLE: {section_title}
