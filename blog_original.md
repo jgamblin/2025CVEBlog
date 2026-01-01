@@ -8,7 +8,7 @@ Another year, another record-breaking year for CVE disclosures. In this annual r
 
 ## TL;DR
 
-**2025 saw 48,185 CVEs published**, an increase of **20.6%** compared to 39,962 CVEs in 2024. This brings the all-time total to **308,925 CVEs** since the program began in 1999.
+**2025 saw 48,185 CVEs published**, an increase of **20.6%** compared to 39,962 CVEs in 2024. This brings the all-time total to **308,920 CVEs** since the program began in 1999.
 
 > **Note**: All statistics in this report exclude rejected CVEs to provide an accurate count of active vulnerabilities.
 
@@ -207,7 +207,7 @@ Not all CVE IDs remain active—some are rejected due to duplicates, disputes, o
 |--------|-------|
 | Rejected CVEs in 2025 | 1,787 |
 | 2025 Rejection Rate | 3.58% |
-| Total Rejected (All Time) | 16,383 |
+| Total Rejected (All Time) | 16,357 |
 
 CVE rejections occur for several reasons:
 - **Duplicates**: The same vulnerability assigned multiple CVE IDs

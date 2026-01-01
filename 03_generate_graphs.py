@@ -63,6 +63,19 @@ def load_data():
         cvelist_df = cvelist_df[~cvelist_df['is_rejected']]
         print(f"  Filtered out {rejected:,} rejected CVEs from CVE List V5")
     
+    # STRICT 2025 CUTOFF: Exclude any data from 2026+
+    if nvd_df is not None and 'year' in nvd_df.columns:
+        future_count = (nvd_df['year'] > 2025).sum()
+        if future_count > 0:
+            print(f"  Excluding {future_count:,} CVEs from 2026+ (NVD)")
+            nvd_df = nvd_df[nvd_df['year'] <= 2025]
+    
+    if cvelist_df is not None and 'year' in cvelist_df.columns:
+        future_count = (cvelist_df['year'] > 2025).sum()
+        if future_count > 0:
+            print(f"  Excluding {future_count:,} CVEs from 2026+ (CVE List V5)")
+            cvelist_df = cvelist_df[cvelist_df['year'] <= 2025]
+    
     return nvd_df, cvelist_df
 
 
@@ -80,6 +93,13 @@ def load_data_with_rejected():
         cvelist_df = pd.read_parquet(OUTPUT_DIR / "cvelist_v5.parquet")
     elif (OUTPUT_DIR / "cvelist_v5.csv").exists():
         cvelist_df = pd.read_csv(OUTPUT_DIR / "cvelist_v5.csv", parse_dates=['date_reserved', 'date_published'])
+    
+    # STRICT 2025 CUTOFF: Exclude any data from 2026+
+    if nvd_df is not None and 'year' in nvd_df.columns:
+        nvd_df = nvd_df[nvd_df['year'] <= 2025]
+    
+    if cvelist_df is not None and 'year' in cvelist_df.columns:
+        cvelist_df = cvelist_df[cvelist_df['year'] <= 2025]
     
     return nvd_df, cvelist_df
 

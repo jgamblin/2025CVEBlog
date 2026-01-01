@@ -92,6 +92,26 @@ def load_data():
         print(f"  → Filtering out {rejected_count:,} rejected CVEs from CVE List V5")
         cvelist_df = cvelist_df[~cvelist_df['is_rejected']].copy()
     
+    # STRICT 2025 CUTOFF: Exclude any data from 2026+
+    if nvd_df is not None and 'year' in nvd_df.columns:
+        future_count = (nvd_df['year'] > 2025).sum()
+        if future_count > 0:
+            print(f"  → Excluding {future_count:,} CVEs from 2026+ (strict 2025 cutoff)")
+            nvd_df = nvd_df[nvd_df['year'] <= 2025].copy()
+    
+    if cvelist_df is not None and 'year' in cvelist_df.columns:
+        future_count = (cvelist_df['year'] > 2025).sum()
+        if future_count > 0:
+            print(f"  → Excluding {future_count:,} CVEs from 2026+ (strict 2025 cutoff)")
+            cvelist_df = cvelist_df[cvelist_df['year'] <= 2025].copy()
+    
+    # Also apply cutoff to full datasets used for rejection analysis
+    if full_nvd_df is not None and 'year' in full_nvd_df.columns:
+        full_nvd_df = full_nvd_df[full_nvd_df['year'] <= 2025].copy()
+    
+    if full_cvelist_df is not None and 'year' in full_cvelist_df.columns:
+        full_cvelist_df = full_cvelist_df[full_cvelist_df['year'] <= 2025].copy()
+    
     # Return both filtered (active) and full datasets
     return nvd_df, cvelist_df, full_nvd_df, full_cvelist_df
 
