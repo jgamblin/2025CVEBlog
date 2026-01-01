@@ -717,6 +717,11 @@ def graph_top_vendors(df, top_n=20, save_path=None):
     
     df_2025 = df[(df['year'] == 2025) & (df['vendor'].notna())].copy()
     df_2025['vendor_clean'] = df_2025['vendor'].str.lower().str.strip()
+    
+    # Filter out n/a, unknown, none values
+    exclude_values = ['n/a', 'unknown', 'none', 'na', 'n_a', '*', '']
+    df_2025 = df_2025[~df_2025['vendor_clean'].isin(exclude_values)]
+    
     vendor_counts = df_2025['vendor_clean'].value_counts().head(top_n)
     
     fig, ax = plt.subplots(figsize=FIG_SIZE_TALL)
@@ -955,6 +960,11 @@ def graph_top_products(df, top_n=15, save_path=None):
     
     # Clean product names
     df_2025['product_clean'] = df_2025['product'].str.lower().str.strip()
+    
+    # Filter out n/a, unknown, none values
+    exclude_values = ['n/a', 'unknown', 'none', 'na', 'n_a', '*', '']
+    df_2025 = df_2025[~df_2025['product_clean'].isin(exclude_values)]
+    
     df_2025['product_clean'] = df_2025['product_clean'].str.replace('_', ' ')
     df_2025['product_clean'] = df_2025['product_clean'].str.title()
     

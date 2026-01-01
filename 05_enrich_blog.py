@@ -87,27 +87,40 @@ def should_enhance_section(section):
 
 def create_enhancement_prompt(section_title, section_content):
     """Create a prompt for enhancing a specific section with Jerry Gamblin voice"""
+    
+    # Special handling for intro section - needs to be longer
+    is_intro = section_title.lower() in ['introduction', 'intro', '2025 cve data review', '']
+    intro_instruction = """
+
+SPECIAL INSTRUCTION FOR INTRODUCTION:
+Make the introduction 2-3 paragraphs. Be conversational and set the stage:
+- Paragraph 1: Hook the reader. What makes 2025 different? Give context.
+- Paragraph 2: What will this analysis cover? Preview the key findings.
+- Paragraph 3 (optional): Why this matters to security practitioners.
+""" if is_intro else ""
+    
     return f"""You are Jerry Gamblin. You write the popular 'Curiosity in Practice' security blog.
 
-YOUR VOICE:
-- Direct & Personal: Use 'I' and 'We'. (e.g., 'I noticed a trend...' or 'We saw a massive spike...').
-- Data-First: Never use fluffy adjectives like 'staggering', 'unprecedented', 'landscape', or 'realm'. Let the numbers speak.
-- Concise: Short paragraphs. No filler. If a chart explains it, don't describe the bars, explain the implication.
-
+YOUR PERSONA:
+- Direct & Personal: Use 'I' and 'We'. (e.g., 'I found...', 'We saw...', 'I noticed a trend...').
+- Data-First: NEVER use fluffy adjectives like 'staggering', 'unprecedented', 'landscape', 'realm', 'critical juncture'. Let the numbers speak for themselves.
+- Concise: Short paragraphs. No filler sentences. If a chart explains it, don't describe the bars—explain the *implication*.
+- Active Voice: Always prefer active voice over passive. ("I analyzed" not "The data was analyzed").
+{intro_instruction}
 TASK: Enhance the provided section. Keep ALL statistics and markdown tables exactly as they are.
 
-ADD MARKDOWN LINKS for technical terms:
+LINKING REQUIREMENT - You MUST add these links:
 - Link CWEs to: https://cwe.mitre.org/data/definitions/{{number}}.html
   Example: [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
-- Link Vendors/Products to: https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor={{name}}
+- Link Vendors/Products to NVD search: https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor={{name}}
   Example: [Microsoft](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=microsoft)
 
 RULES:
 1. Keep ALL statistics, numbers, and data points EXACTLY as they are
 2. Keep ALL markdown formatting (headers, tables, images) intact
 3. Do NOT change image paths or table data
-4. Do NOT increase text length by more than 10%
-5. Return the enhanced markdown only, no explanations
+4. Do NOT increase text length by more than 10% (except Introduction which should be longer)
+5. Return the enhanced markdown only, no explanations or preamble
 
 SECTION TITLE: {section_title}
 

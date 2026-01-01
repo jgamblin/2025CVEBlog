@@ -170,10 +170,25 @@ def get_thousands_formatter():
     return ticker.FuncFormatter(format_thousands)
 
 
+# Watermark settings
+WATERMARK_TEXT = '@jgamblin'
+WATERMARK_ALPHA = 0.5
+
+
 def save_figure(fig, filepath, dpi=None):
-    """Save figure with consistent settings"""
+    """Save figure with consistent settings and watermark"""
     if dpi is None:
         dpi = SAVE_DPI
+    
+    # Add watermark to lower right corner
+    fig.text(0.98, 0.02, WATERMARK_TEXT, 
+             transform=fig.transFigure,
+             fontsize=10, color=COLORS['secondary'],
+             alpha=WATERMARK_ALPHA,
+             ha='right', va='bottom',
+             fontweight='bold',
+             fontstyle='italic')
+    
     fig.savefig(filepath, dpi=dpi, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
     plt.close(fig)

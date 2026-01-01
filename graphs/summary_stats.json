@@ -1,19 +1,19 @@
 {
   "nvd": {
-    "total_all_time": 308859,
-    "total_2025": 48124,
+    "total_all_time": 308925,
+    "total_2025": 48185,
     "total_2024": 39962,
-    "yoy_change": 20.424403183023873,
-    "cvss_v3_coverage_2025": 91.2850137145707,
-    "cwe_coverage_2025": 92.26789128085778,
-    "avg_cvss_2025": 6.600880946961073,
-    "critical_2025": 3980,
-    "high_2025": 14978
+    "yoy_change": 20.577048195785995,
+    "cvss_v3_coverage_2025": 91.30434782608695,
+    "cwe_coverage_2025": 92.27975511051157,
+    "avg_cvss_2025": 6.601295601772929,
+    "critical_2025": 3984,
+    "high_2025": 15003
   },
   "cvelist": {
-    "total_all_time": 308929,
-    "total_2025": 48185,
-    "published_2025": "48185",
+    "total_all_time": 308941,
+    "total_2025": 48186,
+    "published_2025": "48186",
     "rejected_2025": "0",
     "unique_cnas_2025": 365,
     "unique_vendors_2025": 9632,

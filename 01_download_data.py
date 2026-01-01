@@ -16,14 +16,59 @@ from tqdm import tqdm
 DATA_DIR = Path("data")
 DATA_DIR.mkdir(exist_ok=True)
 
-def download_nvd_json():
-    """Download the large NVD JSON file with progress bar"""
+def download_nvd_json(force=False):
+    """Download the large NVD JSON file with progress bar.
+    
+    Always checks for newer version using Last-Modified header.
+    """
     url = "https://nvd.handsonhacking.org/nvd.json"
     output_file = DATA_DIR / "nvd.json"
     
-    if output_file.exists():
-        print(f"NVD JSON already exists at {output_file}")
-        print(f"File size: {output_file.stat().st_size / (1024**3):.2f} GB")
+    # Check if we need to download
+    need_download = force or not output_file.exists()
+    
+    if output_file.exists() and not force:
+        print(f"NVD JSON exists at {output_file}")
+        print(f"Local file size: {output_file.stat().st_size / (1024**3):.2f} GB")
+        
+        # Check if remote file is newer using HEAD request
+        print("Checking for updates...")
+        try:
+            head_response = requests.head(url, timeout=10)
+            head_response.raise_for_status()
+            
+            remote_size = int(head_response.headers.get('content-length', 0))
+            local_size = output_file.stat().st_size
+            
+            # Check Last-Modified header
+            last_modified = head_response.headers.get('Last-Modified')
+            if last_modified:
+                from email.utils import parsedate_to_datetime
+                import datetime
+                remote_time = parsedate_to_datetime(last_modified)
+                local_time = datetime.datetime.fromtimestamp(
+                    output_file.stat().st_mtime, 
+                    tz=datetime.timezone.utc
+                )
+                
+                if remote_time > local_time:
+                    print(f"  Remote file is newer ({last_modified})")
+                    need_download = True
+                else:
+                    print(f"  Local file is up to date")
+            
+            # Also check if size differs significantly (>1MB difference)
+            if abs(remote_size - local_size) > 1024 * 1024:
+                print(f"  File size differs (remote: {remote_size/(1024**3):.2f} GB, local: {local_size/(1024**3):.2f} GB)")
+                need_download = True
+                
+        except requests.RequestException as e:
+            print(f"  Could not check for updates: {e}")
+            print("  Using existing file")
+            return output_file
+    
+    if not need_download:
+        print("No download needed - file is current")
         return output_file
     
     print(f"Downloading NVD JSON from {url}...")
@@ -101,6 +146,12 @@ def verify_data():
         print("✗ CVE List V5 not found")
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='Download CVE data sources')
+    parser.add_argument('--force', '-f', action='store_true', 
+                        help='Force re-download even if files exist')
+    args = parser.parse_args()
+    
     print("="*50)
     print("2025 CVE Data Download Script")
     print("="*50)
@@ -108,7 +159,7 @@ def main():
     # Download NVD JSON
     print("\n[1/2] Downloading NVD JSON...")
     try:
-        download_nvd_json()
+        download_nvd_json(force=args.force)
     except Exception as e:
         print(f"Error downloading NVD JSON: {e}")
     

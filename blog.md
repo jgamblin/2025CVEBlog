@@ -6,9 +6,9 @@
 
 Another year, another record-breaking year for CVE disclosures. In this annual review, I analyze the Common Vulnerabilities and Exposures (CVE) data for 2025, examining trends in vulnerability disclosures, severity distributions, and the organizations driving vulnerability documentation.
 
-## Executive Summary
+## TL;DR
 
-**2025 saw 48,124 CVEs published**, an increase of **20.4%** compared to 39,962 CVEs in 2024. This brings the all-time total to **308,859 CVEs** since the program began in 1999.
+**2025 saw 48,185 CVEs published**, an increase of **20.6%** compared to 39,962 CVEs in 2024. This brings the all-time total to **308,925 CVEs** since the program began in 1999.
 
 > **Note**: All statistics in this report exclude rejected CVEs to provide an accurate count of active vulnerabilities.
 
@@ -16,10 +16,10 @@ Another year, another record-breaking year for CVE disclosures. In this annual r
 
 | Metric | Value |
 |--------|-------|
-| **Total CVEs in 2025** | **48,124** |
-| Year-over-Year Change | +20.4% |
-| Critical Severity | 3,980 |
-| High Severity | 14,978 |
+| **Total CVEs in 2025** | **48,185** |
+| Year-over-Year Change | +20.6% |
+| Critical Severity | 3,984 |
+| High Severity | 15,003 |
 | Average CVSS Score | 6.60 |
 | CVSS Coverage | 91.3% |
 | CWE Coverage | 92.3% |
@@ -38,7 +38,7 @@ The growth isn't uniform—some years saw dramatic increases while others showed
 
 ![Year-over-Year Growth](graphs/02_yoy_growth.png)
 
-Looking at the cumulative total, we've now surpassed **308,180 CVEs** in the database.
+Looking at the cumulative total, we've now surpassed **308,241 CVEs** in the database.
 
 ![Cumulative Growth](graphs/03_cumulative_growth.png)
 
@@ -46,7 +46,7 @@ Looking at the cumulative total, we've now surpassed **308,180 CVEs** in the dat
 
 ## 2025 Monthly Distribution
 
-CVE publications varied throughout 2025, with **Dec** being the peak month at **5,439 CVEs**.
+CVE publications varied throughout 2025, with **Dec** being the peak month at **5,500 CVEs**.
 
 ![2025 Monthly Distribution](graphs/04_2025_monthly.png)
 
@@ -58,7 +58,7 @@ Looking at which days CVEs are published reveals interesting patterns. **Tue** s
 
 ![CVEs by Day of Week](graphs/16_day_of_week.png)
 
-The "Patch Tuesday" effect is visible: Tuesday accounts for **11,754 CVEs**. Weekdays average **8,906** CVEs compared to weekends at **1,796**.
+The "Patch Tuesday" effect is visible: Tuesday accounts for **11,754 CVEs**. Weekdays average **8,918** CVEs compared to weekends at **1,796**.
 
 ---
 
@@ -110,9 +110,9 @@ The **average CVSS score for 2025 was 6.60**, with a **median of 6.50**.
 
 | Severity | Count | Percentage |
 |----------|-------|------------|
-| Critical | 3,980 | 8.3% |
-| High | 14,978 | 31.1% |
-| Medium | 25,517 | 53.0% |
+| Critical | 3,984 | 8.3% |
+| High | 15,003 | 31.1% |
+| Medium | 25,551 | 53.0% |
 | Low | 1,557 | 3.2% |
 
 ![Severity Breakdown](graphs/06_severity_breakdown.png)
@@ -133,11 +133,11 @@ The Common Weakness Enumeration (CWE) categorizes the types of security weakness
 
 | Rank | CWE | Name | Count |
 |------|-----|------|-------|
-| 1 | CWE-79 | XSS | 8,183 |
-| 2 | CWE-74 |  | 2,559 |
-| 3 | CWE-862 | Missing Authorization | 2,215 |
-| 4 | CWE-352 | CSRF | 1,893 |
-| 5 | CWE-89 | SQL Injection | 1,704 |
+| 1 | CWE-79 | XSS | 8,207 |
+| 2 | CWE-74 |  | 2,564 |
+| 3 | CWE-862 | Missing Authorization | 2,224 |
+| 4 | CWE-352 | CSRF | 1,894 |
+| 5 | CWE-89 | SQL Injection | 1,706 |
 
 ---
 
@@ -154,7 +154,7 @@ CVE Numbering Authorities are organizations authorized to assign CVE IDs. The ec
 | 1 | Patchstack | 7,007 |
 | 2 | VulDB | 5,902 |
 | 3 | Linux | 5,686 |
-| 4 | mitre | 5,207 |
+| 4 | mitre | 5,208 |
 | 5 | Wordfence | 3,451 |
 
 In total, **365 unique CNAs** assigned CVEs in 2025.
@@ -172,10 +172,10 @@ Which vendors had the most CVEs assigned to their products in 2025?
 | Rank | Vendor | CVE Count |
 |------|--------|-----------|
 | 1 | linux | 5,687 |
-| 2 | n/a | 5,310 |
-| 3 | microsoft | 1,255 |
-| 4 | adobe | 829 |
-| 5 | code-projects | 730 |
+| 2 | microsoft | 1,255 |
+| 3 | adobe | 829 |
+| 4 | code-projects | 730 |
+| 5 | apple | 727 |
 
 ---
 
@@ -191,7 +191,7 @@ Not all CVEs have complete metadata. Here's how data quality has evolved over th
 |--------|----------|
 | CVSS Score | 91.3% |
 | CWE Classification | 92.3% |
-| CPE Identifiers | 57.5% |
+| CPE Identifiers | 57.6% |
 
 ---
 
@@ -207,7 +207,7 @@ Not all CVE IDs remain active—some are rejected due to duplicates, disputes, o
 |--------|-------|
 | Rejected CVEs in 2025 | 1,787 |
 | 2025 Rejection Rate | 3.58% |
-| Total Rejected (All Time) | 16,357 |
+| Total Rejected (All Time) | 16,383 |
 
 CVE rejections occur for several reasons:
 - **Duplicates**: The same vulnerability assigned multiple CVE IDs
@@ -221,9 +221,9 @@ CVE rejections occur for several reasons:
 
 ### Key Takeaways from 2025
 
-1. **Volume continues to grow**: With 48,124 CVEs, 2025 set a new record in vulnerability disclosures.
+1. **Volume continues to grow**: With 48,185 CVEs, 2025 set a new record in vulnerability disclosures.
 
-2. **Severity remains concerning**: 18,958 CVEs (39.4%) were rated Critical or High severity.
+2. **Severity remains concerning**: 18,987 CVEs (39.4%) were rated Critical or High severity.
 
 3. **Common weaknesses persist**: Memory safety issues and web application vulnerabilities continue to dominate the top CWE list.
 

@@ -201,7 +201,7 @@ def generate_blog(stats, top_cwes, top_cnas, top_vendors, peak_month, peak_count
 
 Another year, another record-breaking year for CVE disclosures. In this annual review, I analyze the Common Vulnerabilities and Exposures (CVE) data for 2025, examining trends in vulnerability disclosures, severity distributions, and the organizations driving vulnerability documentation.
 
-## Executive Summary
+## TL;DR
 
 **2025 saw {stats['total_2025']:,} CVEs published**, {'an increase' if stats['yoy_change'] > 0 else 'a decrease'} of **{abs(stats['yoy_change']):.1f}%** compared to {stats['total_2024']:,} CVEs in 2024. This brings the all-time total to **{stats['total_all_time']:,} CVEs** since the program began in 1999.
 
