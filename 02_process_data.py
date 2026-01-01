@@ -12,6 +12,7 @@ from pathlib import Path
 from datetime import datetime
 from tqdm import tqdm
 from collections import defaultdict
+import concurrent.futures
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -240,138 +241,146 @@ def parse_nvd_data(nvd_data):
     print(f"Created DataFrame with {len(df):,} CVEs")
     return df
 
+
+def process_single_cve_file(cve_file):
+    """Helper function to process a single CVE file (for parallel execution)"""
+    try:
+        with open(cve_file, 'r') as f:
+            data = json.load(f)
+        
+        # Get CVE ID
+        cve_id = data.get('cveMetadata', {}).get('cveId', cve_file.stem)
+        
+        # Get metadata
+        metadata = data.get('cveMetadata', {})
+        state = metadata.get('state', '')
+        date_reserved = metadata.get('dateReserved', '')
+        date_published = metadata.get('datePublished', '')
+        date_updated = metadata.get('dateUpdated', '')
+        assigner_org = metadata.get('assignerOrgId', '')
+        assigner_short = metadata.get('assignerShortName', '')
+        
+        # Get container data
+        containers = data.get('containers', {})
+        cna = containers.get('cna', {})
+        
+        # Get affected products
+        affected = cna.get('affected', [])
+        vendors = []
+        products = []
+        for aff in affected:
+            vendor = aff.get('vendor', '')
+            product = aff.get('product', '')
+            if vendor:
+                vendors.append(vendor)
+            if product:
+                products.append(product)
+        
+        # Get problem types (CWE)
+        problem_types = cna.get('problemTypes', [])
+        cwes = []
+        for pt in problem_types:
+            for desc in pt.get('descriptions', []):
+                cwe_id = desc.get('cweId', '')
+                if cwe_id:
+                    cwes.append(cwe_id)
+        
+        # Get CVSS metrics
+        metrics = cna.get('metrics', [])
+        cvss_v3 = None
+        cvss_v4 = None
+        severity = None
+        
+        for metric in metrics:
+            if 'cvssV4_0' in metric:
+                cvss_v4 = metric['cvssV4_0'].get('baseScore')
+                severity = metric['cvssV4_0'].get('baseSeverity')
+            if 'cvssV3_1' in metric:
+                cvss_v3 = metric['cvssV3_1'].get('baseScore')
+                if not severity:
+                    severity = metric['cvssV3_1'].get('baseSeverity')
+            if 'cvssV3_0' in metric and cvss_v3 is None:
+                cvss_v3 = metric['cvssV3_0'].get('baseScore')
+                if not severity:
+                    severity = metric['cvssV3_0'].get('baseSeverity')
+        
+        # Get description
+        descriptions = cna.get('descriptions', [])
+        description = next((d['value'] for d in descriptions if d.get('lang') == 'en'), '')
+        
+        # Get references
+        references = cna.get('references', [])
+        
+        # Extract year from CVE ID (for reference)
+        try:
+            cve_year = int(cve_id.split('-')[1])
+        except:
+            cve_year = None
+        
+        # Parse dates
+        try:
+            pub_date = pd.to_datetime(date_published) if date_published else None
+        except:
+            pub_date = None
+        
+        try:
+            reserved_date = pd.to_datetime(date_reserved) if date_reserved else None
+        except:
+            reserved_date = None
+        
+        # Use published date year as the primary year for analysis
+        if pub_date is not None:
+            year = pub_date.year
+        else:
+            year = cve_year
+        
+        return {
+            'cve_id': cve_id,
+            'year': year,
+            'cve_year': cve_year,
+            'state': state,
+            'date_reserved': reserved_date,
+            'date_published': pub_date,
+            'assigner_org_id': assigner_org,
+            'assigner_short_name': assigner_short,
+            'vendor': vendors[0] if vendors else None,
+            'product': products[0] if products else None,
+            'vendor_count': len(set(vendors)),
+            'product_count': len(set(products)),
+            'cwe': cwes[0] if cwes else None,
+            'cwe_count': len(cwes),
+            'cvss_v3': cvss_v3,
+            'cvss_v4': cvss_v4,
+            'severity': severity,
+            'description': description[:500] if description else '',
+            'ref_count': len(references),
+            'is_rejected': state == 'REJECTED',
+            'is_published': state == 'PUBLISHED'
+        }
+    except Exception:
+        return None
+
+
 def parse_cvelistv5():
-    """Parse CVE List V5 repository"""
+    """Parse CVE List V5 repository using parallel processing for speed"""
     cvelist_dir = DATA_DIR / "cvelistV5" / "cves"
     
     if not cvelist_dir.exists():
-        # Try alternate path
         cvelist_dir = DATA_DIR / "cvelistV5"
     
-    print(f"Parsing CVE List V5 from {cvelist_dir}...")
-    
-    records = []
+    print(f"Scanning files in {cvelist_dir}...")
     cve_files = list(cvelist_dir.rglob("CVE-*.json"))
+    print(f"Found {len(cve_files):,} CVE files. Starting parallel processing...")
     
-    print(f"Found {len(cve_files):,} CVE files")
+    # Use ProcessPoolExecutor to utilize all CPU cores
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = list(tqdm(
+            executor.map(process_single_cve_file, cve_files, chunksize=1000),
+            total=len(cve_files)
+        ))
     
-    for cve_file in tqdm(cve_files):
-        try:
-            with open(cve_file, 'r') as f:
-                data = json.load(f)
-            
-            # Get CVE ID
-            cve_id = data.get('cveMetadata', {}).get('cveId', cve_file.stem)
-            
-            # Get metadata
-            metadata = data.get('cveMetadata', {})
-            state = metadata.get('state', '')
-            date_reserved = metadata.get('dateReserved', '')
-            date_published = metadata.get('datePublished', '')
-            date_updated = metadata.get('dateUpdated', '')
-            assigner_org = metadata.get('assignerOrgId', '')
-            assigner_short = metadata.get('assignerShortName', '')
-            
-            # Get container data
-            containers = data.get('containers', {})
-            cna = containers.get('cna', {})
-            
-            # Get affected products
-            affected = cna.get('affected', [])
-            vendors = []
-            products = []
-            for aff in affected:
-                vendor = aff.get('vendor', '')
-                product = aff.get('product', '')
-                if vendor:
-                    vendors.append(vendor)
-                if product:
-                    products.append(product)
-            
-            # Get problem types (CWE)
-            problem_types = cna.get('problemTypes', [])
-            cwes = []
-            for pt in problem_types:
-                for desc in pt.get('descriptions', []):
-                    cwe_id = desc.get('cweId', '')
-                    if cwe_id:
-                        cwes.append(cwe_id)
-            
-            # Get CVSS metrics
-            metrics = cna.get('metrics', [])
-            cvss_v3 = None
-            cvss_v4 = None
-            severity = None
-            
-            for metric in metrics:
-                if 'cvssV4_0' in metric:
-                    cvss_v4 = metric['cvssV4_0'].get('baseScore')
-                    severity = metric['cvssV4_0'].get('baseSeverity')
-                if 'cvssV3_1' in metric:
-                    cvss_v3 = metric['cvssV3_1'].get('baseScore')
-                    if not severity:
-                        severity = metric['cvssV3_1'].get('baseSeverity')
-                if 'cvssV3_0' in metric and cvss_v3 is None:
-                    cvss_v3 = metric['cvssV3_0'].get('baseScore')
-                    if not severity:
-                        severity = metric['cvssV3_0'].get('baseSeverity')
-            
-            # Get description
-            descriptions = cna.get('descriptions', [])
-            description = next((d['value'] for d in descriptions if d.get('lang') == 'en'), '')
-            
-            # Get references
-            references = cna.get('references', [])
-            
-            # Extract year from CVE ID (for reference)
-            try:
-                cve_year = int(cve_id.split('-')[1])
-            except:
-                cve_year = None
-            
-            # Parse dates
-            try:
-                pub_date = pd.to_datetime(date_published) if date_published else None
-            except:
-                pub_date = None
-            
-            try:
-                reserved_date = pd.to_datetime(date_reserved) if date_reserved else None
-            except:
-                reserved_date = None
-            
-            # Use published date year as the primary year for analysis
-            if pub_date is not None:
-                year = pub_date.year
-            else:
-                year = cve_year
-            
-            records.append({
-                'cve_id': cve_id,
-                'year': year,
-                'cve_year': cve_year,  # Year from CVE ID for reference
-                'state': state,
-                'date_reserved': reserved_date,
-                'date_published': pub_date,
-                'assigner_org_id': assigner_org,
-                'assigner_short_name': assigner_short,
-                'vendor': vendors[0] if vendors else None,
-                'product': products[0] if products else None,
-                'vendor_count': len(set(vendors)),
-                'product_count': len(set(products)),
-                'cwe': cwes[0] if cwes else None,
-                'cwe_count': len(cwes),
-                'cvss_v3': cvss_v3,
-                'cvss_v4': cvss_v4,
-                'severity': severity,
-                'description': description[:500] if description else '',
-                'ref_count': len(references),
-                'is_rejected': state == 'REJECTED',
-                'is_published': state == 'PUBLISHED'
-            })
-            
-        except Exception as e:
-            continue
+    # Filter out None results (failed parses)
+    records = [r for r in results if r is not None]
     
     df = pd.DataFrame(records)
     print(f"Created CVE V5 DataFrame with {len(df):,} CVEs")
