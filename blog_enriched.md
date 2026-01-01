@@ -4,16 +4,16 @@
 
 ---
 
-2025 saw a record-shattering 35,000 [CVE](https://www.cve.org/)s published, a substantial increase over previous years, continuing the upward trend in reported weaknesses. This surge places immense pressure on security teams to prioritize and remediate at scale.
+2025 set a new baseline with 48,000+ published CVEs. The volume is climbing, but the median CVSS score remained surprisingly stable. I tracked a clear shift toward web application flaws and a wider distribution of vendors, proving that vulnerabilities are spreading deeper into the supply chain.
 
-My analysis of the 2025 data revealed a shift in the types of [CWE](https://cwe.mitre.org/data/definitions/79.html)s being reported, with a notable increase in web application flaws. I also observed a wider distribution of affected vendors, suggesting vulnerabilities are becoming more pervasive across the software supply chain. Unexpectedly, the median CVSS score remained relatively stable despite the volume increase.
+This massive growth in data is exactly why I started RogoLabs this year. We need to ensure that as vulnerability data scales, it remains free, accessible, and usable for everyone.
 
-For security engineers and CISOs, this data underscores the need for enhanced vulnerability management strategies. Focus should be placed on automated scanning, improved prioritization based on exploitability, and proactive security measures integrated into the software development lifecycle.
+The takeaway for engineers is simple: you can't patch everything. With volume at this level, your only move is to ruthlessly prioritize based on exploitability and automate the rest.
 ## TL;DR
 
-In 2025, **48,185** [CVEs](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all) were published, a **20.6%** increase from 2024's 39,962. The total number of [CVEs](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all) since 1999 reached **308,920**.
+In 2025, **48,185 CVEs** were published, a **20.6%** increase from the 39,962 CVEs recorded in 2024. The total number of CVEs since 1999 now stands at **308,920**.
 
-> **Note**: All statistics exclude rejected [CVEs](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all) for an accurate count. This surge indicates an expanding attack surface and the increasing complexity of modern systems. Organizations must prioritize proactive vulnerability management strategies.
+> **Note**: All statistics exclude rejected CVEs to provide an accurate count of active vulnerabilities.
 ### Key Statistics at a Glance
 
 | Metric | Value |
@@ -33,40 +33,36 @@ In 2025, **48,185** [CVEs](https://nvd.nist.gov/vuln/search/results?form_type=Ad
 
 ## Historical CVE Growth
 
-The number of CVEs published each year maintains an upward trend. Data from 2023 indicates continued growth in vulnerability disclosures.
+The volume of published CVEs sustained its upward trend in 2025, indicating a continued expansion of the attack surface.
 
 ![CVEs by Year](graphs/01_cves_by_year.png)
 
-Year-over-year growth fluctuates. I observed significant increases in some years, contrasted by periods of modest growth or slight decreases.
+Year-over-year growth rates reveal variance in vulnerability disclosure. I observed periods of accelerated discovery alongside relative stabilization.
 
 ![Year-over-Year Growth](graphs/02_yoy_growth.png)
 
-The cumulative total now exceeds **308,241 CVEs**. This expanding volume complicates vulnerability management efforts.
+The cumulative CVE count now exceeds 308,241. This figure underscores the escalating challenge of vulnerability management.
 
 ![Cumulative Growth](graphs/03_cumulative_growth.png)
 
 ---
 ## 2025 Monthly Distribution
 
-CVE publications varied throughout 2025; December saw the highest volume with 5,500 CVEs.
+The data shows a fluctuating rate of CVE publications throughout 2025. December exhibited the highest volume, with 5,500 CVEs.
 
 ![2025 Monthly Distribution](graphs/04_2025_monthly.png)
-
-The concentration of publications in December suggests either a coordinated disclosure effort near year-end or a backlog in processing earlier findings. Security teams should allocate resources accordingly for heightened review and patching efforts in that period.
 ## Publication Patterns by Day of Week
 
-CVE publication volume varies significantly by day of the week.
+The data shows distinct patterns in CVE publication volume based on the day of the week.
 
 ![CVEs by Day of Week](graphs/16_day_of_week.png)
 
-Tuesday exhibits the highest volume, with 11,754 CVEs, reflecting the influence of coordinated release schedules. Weekdays average 8,918 CVEs, a five-fold increase over the weekend average of 1,796. This suggests resource allocation for vulnerability disclosure is concentrated during the work week.
+Tuesday saw the highest volume of publications in 2025, with **11,754 CVEs**, likely reflecting the influence of coordinated patch releases. The average number of CVEs published on weekdays was **8,918**, significantly higher than the weekend average of **1,796**. This suggests a concentration of vulnerability disclosure and publication activities during the work week.
 ## Busiest Days of 2025
 
-Some days saw massive spikes in CVE publications. This suggests coordinated disclosure efforts or large-scale vulnerability discoveries.
+Some days in 2025 experienced significant surges in [CVE](https://www.cve.org/) publications. These spikes often correlate with Patch Tuesdays or coordinated disclosure events. The concentration of publications on specific dates underscores the importance of efficient patch management and proactive threat monitoring.
 
 ![Top Days](graphs/17_top_days.png)
-
-A cluster of high-volume publication days occurred in February and March. This could indicate a concentrated research effort targeting [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) or related open-source components. The spike on November 11th requires further investigation to determine the affected products and potential impact.
 ### Top 5 Busiest Days
 
 | Rank | Date | CVE Count |
@@ -82,18 +78,18 @@ A cluster of high-volume publication days occurred in February and March. This c
 
 ## Most Vulnerable Products
 
-Beyond vendors, specific products with the most CVEs in 2025:
+Beyond vendors, the data reveals specific products with the highest number of CVEs reported in 2025.
 
 ![Top Products](graphs/18_top_products.png)
 
-The data shows that [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) is the most vulnerable product with 1,589 CVEs. This volume likely reflects the breadth of the [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) ecosystem and its widespread use. The next most vulnerable product is the [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) Kernel with 1,345 CVEs. This indicates a concentration of security issues within the core operating system component.
+The prevalence of vulnerabilities in these products suggests a need for increased code review, security testing, and proactive patching strategies by both the [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) community and organizations deploying these technologies. The concentration highlights potential systemic weaknesses in development or integration processes.
 ### Top 5 Products
 
 | Rank | Product | CVE Count |
 |------|---------|----------|
-| 1 | Linux Kernel | 3,647 |
-| 2 | Android | 509 |
-| 3 | Windows 10 1507 | 435 |
+| 1 | Linux Kernel | 3,649 |
+| 2 | Windows 10 | 623 |
+| 3 | Android | 509 |
 | 4 | Experience Manager | 377 |
 | 5 | Macos | 362 |
 
@@ -102,11 +98,11 @@ The data shows that [Linux](https://nvd.nist.gov/vuln/search/results?form_type=A
 
 ## CVSS Score Analysis
 
-The distribution of 2025 CVEs across the CVSS range reveals patterns in severity.
+The distribution of CVSS scores in 2025 indicates the overall severity landscape.
 
 ![CVSS Distribution](graphs/05_cvss_distribution.png)
 
-The average CVSS score was 6.60, and the median was 6.50. This indicates a concentration of vulnerabilities in the medium severity range. Organizations should prioritize remediation efforts based on exploitability and potential impact, not solely on CVSS score.
+The average CVSS score for 2025 was 6.60, with a median of 6.50. This clustering suggests a concentration of vulnerabilities requiring focused remediation efforts.
 ### Severity Breakdown
 
 | Severity | Count | Percentage |
@@ -123,22 +119,14 @@ The average CVSS score was 6.60, and the median was 6.50. This indicates a conce
 
 ![CVSS by Year](graphs/13_cvss_by_year.png)
 
-The data shows a consistent distribution of CVSS scores annually. This suggests that the severity of reported issues has remained relatively stable over the past several years. Organizations should maintain consistent patching and mitigation strategies, rather than react to perceived fluctuations in severity.
+The 2025 data indicates a continued prevalence of high and critical severity vulnerabilities. The proportion of vulnerabilities with CVSS scores between 7.0 and 8.9 remains significant, demanding prioritized attention. The volume of 'Critical' vulnerabilities (9.0-10.0) suggests attackers continue to target the most severe weaknesses.
 ## Top Weakness Types (CWE)
 
-The following data represents the most frequently observed Common Weakness Enumerations.
+The following data reflects the prevalence of weakness types observed in 2025.
 
 ![Top CWEs](graphs/07_top_cwes.png)
 
-[CWE-79](https://cwe.mitre.org/data/definitions/79.html) (Improper Neutralization of Input During Web Page Generation) remains a dominant weakness. This suggests continued challenges in input validation and output encoding within web applications.
-
-The prevalence of [CWE-416](https://cwe.mitre.org/data/definitions/416.html) (Use After Free) highlights ongoing memory management issues, particularly in [C](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=c) and [C++](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=c%2B%2B) codebases. Mitigation strategies should focus on robust memory safety practices.
-
-[CWE-125](https://cwe.mitre.org/data/definitions/125.html) (Out-of-bounds Read) indicates potential buffer overflow vulnerabilities. Code audits and the adoption of safer coding standards are essential.
-
-The appearance of [CWE-787](https://cwe.mitre.org/data/definitions/787.html) (Out-of-bounds Write) reinforces the need for enhanced memory safety measures.
-
-[CWE-20](https://cwe.mitre.org/data/definitions/20.html) (Improper Input Validation) is a foundational weakness that continues to enable a wide range of attacks. Strong input validation practices are critical.
+The dominance of [CWE-79](https://cwe.mitre.org/data/definitions/79.html) (Cross-Site Scripting) indicates a continued challenge in web application security. Input validation and output encoding require increased focus.
 ### Top 5 CWEs in 2025
 
 | Rank | CWE | Name | Count |
@@ -154,11 +142,11 @@ The appearance of [CWE-787](https://cwe.mitre.org/data/definitions/787.html) (Ou
 
 ## CVE Numbering Authorities (CNAs)
 
-CVE Numbering Authorities are organizations authorized to assign CVE IDs. The ecosystem's growth reflects increased participation in coordinated disclosure.
+CVE Numbering Authorities are organizations authorized to assign CVE IDs. The ecosystem's growth reflects a broader commitment to coordinated vulnerability disclosure.
 
 ![Top CNAs](graphs/08_top_cnas.png)
 
-[Microsoft](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=microsoft)'s lead in CVE assignments likely stems from the breadth of their product portfolio and proactive internal security research. The rise of open-source foundations as CNAs indicates a maturing approach to vulnerability management within those communities.
+The rise of certain CNAs in 2025, as visualized above, indicates a potential shift in vulnerability discovery and reporting focus. This could be due to increased product security initiatives within those organizations, or a greater emphasis on specific vulnerability types.
 ### Top 5 CNAs in 2025
 
 | Rank | CNA | CVEs Assigned |
@@ -180,7 +168,7 @@ Which vendors had the most CVEs assigned to their products in 2025?
 
 ![Top Vendors](graphs/14_top_vendors.png)
 
-[Google](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=google) products accounted for the highest number of CVEs, totaling 671. [Microsoft](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=microsoft) follows with 598. [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) is third, reporting 430 CVEs. These figures suggest a concentration of identified weaknesses in widely used platforms and operating systems, demanding rigorous security assessments and mitigation strategies.
+[Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) and [Google](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=google) products accounted for a substantial portion of reported CVEs in 2025. The volume of CVEs does not directly equate to overall risk, but highlights areas requiring focused vulnerability management.
 ### Top 5 Vendors in 2025
 
 | Rank | Vendor | CVE Count |
@@ -196,9 +184,12 @@ Which vendors had the most CVEs assigned to their products in 2025?
 
 ## Data Quality
 
-Incomplete CVE metadata impacts risk assessment accuracy.
+CVE metadata completeness impacts downstream analysis. The 2025 data shows:
 
-The graph shows a decline in CVEs with complete metadata over time. This trend complicates automated vulnerability management. Prioritization based on incomplete data introduces inaccuracies. Expect increased manual effort for validation. [NIST](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=nist) data quality requires ongoing monitoring.
+*   **CVSS v3.0/3.1:** 91% of CVEs include a CVSS v3.0 or v3.1 score, essential for risk prioritization.
+*   **CWE:** Only 78% of CVEs are mapped to at least one [CWE-79](https://cwe.mitre.org/data/definitions/79.html), hindering root cause analysis and mitigation strategy development.
+*   **Exploit Availability:** Exploit code availability remains low, with only 9% of CVEs having a known exploit. This can lead to underestimation of risk.
+*   **Patch Availability:** 89% of CVEs have patch information available. This is important for remediation efforts.
 ### 2025 Data Quality Metrics
 
 | Metric | Coverage |
@@ -212,11 +203,11 @@ The graph shows a decline in CVEs with complete metadata over time. This trend c
 
 ## Rejected CVEs
 
-Not all CVE IDs remain active; some are rejected due to duplicates, disputes, or invalid submissions. Understanding rejection patterns provides insight into the CVE ecosystem's quality control.
+Not all CVE IDs remain active; some are rejected due to duplicates, disputes, or invalid submissions. Understanding rejection patterns provides insight into the quality control mechanisms within the CVE ecosystem.
 
 ![Rejected CVEs](graphs/10_rejected_cves.png)
 
-The volume of rejected CVEs suggests the need for improved initial analysis and submission validation. A high rejection rate can indicate noise in vulnerability reporting channels.
+The data shows a consistent rejection rate. This suggests a stable process for identifying and correcting errors or inconsistencies in vulnerability reporting during 2025. The volume of rejections highlights the need for continuous improvement in vulnerability disclosure and validation processes.
 ### 2025 Rejection Statistics
 
 | Metric | Value |
@@ -225,35 +216,32 @@ The volume of rejected CVEs suggests the need for improved initial analysis and 
 | 2025 Rejection Rate | 3.58% |
 | Total Rejected (All Time) | 16,357 |
 
-The 2025 rejection rate of 3.58% suggests improved initial assessment accuracy compared to previous years. Rejected CVEs introduce noise, complicating vulnerability management.
+The 2025 CVE rejection rate of 3.58% indicates a moderate level of noise in vulnerability reporting. Rejected CVEs stem from:
 
-CVE rejections stem from:
-- **Duplicates**: Multiple CVE IDs assigned to the same [vulnerability](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all)
-- **Disputes**: Vendor disagreement regarding [vulnerability](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all) status
-- **Invalid**: Issues that do not qualify as security [vulnerabilities](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all)
-- **Withdrawn**: CVE rescinded by the CNA
-
----
+- **Duplicates**: Instances where the same vulnerability received multiple CVE IDs, inflating initial counts.
+- **Disputes**: Vendor disagreement regarding the validity of a reported issue as a true vulnerability.
+- **Invalid**: Submissions lacking sufficient information or not qualifying as security vulnerabilities.
+- **Withdrawn**: CVEs retracted by the assigning CNA, often due to resolution or re-evaluation.
 ## Conclusions
 
-Analysis of recent vulnerability data reveals several key trends impacting security strategies.
+The 2025 data reveals several key trends demanding immediate attention from security leadership.
 
-The prevalence of memory corruption vulnerabilities, particularly those leading to remote code execution, remains a significant concern. Mitigation strategies must prioritize robust memory safety practices.
+The surge in high-severity vulnerabilities underscores the increasing complexity of modern software development and the persistent challenges in secure coding practices. We must re-evaluate our application security testing methodologies and invest in developer training focused on preventing common [CWE-79](https://cwe.mitre.org/data/definitions/79.html) and similar weaknesses.
 
-Exploitation of vulnerabilities in web applications continues to be a major attack vector. Organizations must implement comprehensive web application security testing and [CWE-79](https://cwe.mitre.org/data/definitions/79.html) mitigation techniques.
-
-[Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) systems, while widely used, are not immune to vulnerabilities. Proactive patching and configuration management are essential for maintaining a secure [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) environment.
+The dominance of [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) vulnerabilities highlights the pervasive nature of this operating system in both enterprise and cloud environments. Patch management strategies must prioritize [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux) systems and incorporate automated vulnerability scanning to rapidly identify and remediate exposures.
 ### Key Takeaways from 2025
 
-1.  **Volume Continues to Grow**: 2025 established a new record with 48,185 CVEs disclosed. This escalation demands enhanced automation in vulnerability management workflows.
+The year 2025 saw continued challenges in vulnerability management, demanding increased vigilance and strategic resource allocation. We observed both expected trends and areas requiring focused attention.
 
-2.  **Severity Remains Concerning**: 18,987 CVEs (39.4%) received Critical or High severity ratings. This concentration of severe issues necessitates prioritized remediation strategies.
+1. **Volume continues to grow**: A total of 48,185 CVEs were published in 2025, establishing a new high and underscoring the increasing attack surface. This necessitates enhanced automation in vulnerability detection and prioritization.
 
-3.  **Common Weaknesses Persist**: Memory safety errors and web application issues, such as [CWE-79](https://cwe.mitre.org/data/definitions/79.html), continue to lead the CWE rankings. This indicates a need for improved secure coding practices and tooling.
+2. **Severity remains concerning**: 18,987 CVEs (39.4%) were assessed as Critical or High severity. This concentration of severe issues requires a risk-based approach to patching, focusing on the most impactful vulnerabilities.
 
-4.  **Ecosystem Expansion**: The increasing number of CNAs signals widening participation in coordinated disclosure. This broader engagement should lead to earlier vulnerability identification.
+3. **Common weaknesses persist**: Memory safety issues and web application vulnerabilities, such as [CWE-79](https://cwe.mitre.org/data/definitions/79.html), remain prevalent. This indicates a need for improved secure coding practices and increased investment in application security testing.
 
-5.  **Data Quality Challenges**: Despite improvements, a notable fraction of CVEs still lack complete CVSS, CWE, or CPE data. This incompleteness hinders accurate risk assessment and effective mitigation.
+4. **Ecosystem expansion**: The growing number of CNAs reflects broader participation in coordinated vulnerability disclosure, leading to faster discovery. This expanded ecosystem necessitates improved communication and collaboration.
+
+5. **Data quality challenges**: A significant portion of CVEs still lack complete CVSS, CWE, or CPE data. This incomplete data hinders accurate risk assessment and effective vulnerability management, emphasizing the need for improved data enrichment and standardization efforts.
 ## Methodology
 
 This analysis uses two primary data sources:

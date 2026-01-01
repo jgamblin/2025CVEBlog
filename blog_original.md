@@ -90,9 +90,9 @@ Beyond vendors, specific products with the most CVEs in 2025:
 
 | Rank | Product | CVE Count |
 |------|---------|----------|
-| 1 | Linux Kernel | 3,647 |
-| 2 | Android | 509 |
-| 3 | Windows 10 1507 | 435 |
+| 1 | Linux Kernel | 3,649 |
+| 2 | Windows 10 | 623 |
+| 3 | Android | 509 |
 | 4 | Experience Manager | 377 |
 | 5 | Macos | 362 |
 

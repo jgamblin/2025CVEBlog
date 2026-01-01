@@ -85,21 +85,36 @@ def should_enhance_section(section):
     
     return not any(kw in title_lower for kw in skip_keywords)
 
+
+# The EXACT introduction text Jerry wants
+JERRY_INTRO_TEXT = """2025 set a new baseline with 48,000+ published CVEs. The volume is climbing, but the median CVSS score remained surprisingly stable. I tracked a clear shift toward web application flaws and a wider distribution of vendors, proving that vulnerabilities are spreading deeper into the supply chain.
+
+This massive growth in data is exactly why I started RogoLabs this year. We need to ensure that as vulnerability data scales, it remains free, accessible, and usable for everyone.
+
+The takeaway for engineers is simple: you can't patch everything. With volume at this level, your only move is to ruthlessly prioritize based on exploitability and automate the rest."""
+
+
 def create_enhancement_prompt(section_title, section_content):
     """Create a prompt for enhancing a specific section with strict anti-fluff rules"""
     
-    # Special handling for intro section - needs to be longer
+    # Special handling for intro section - use EXACT text
     is_intro = section_title.lower() in ['introduction', 'intro', '2025 cve data review', '']
-    intro_instruction = """
+    intro_instruction = f"""
 
-SPECIAL INSTRUCTION FOR INTRODUCTION:
-Write a 3-paragraph introduction that hooks the reader with the record-breaking volume:
-- Paragraph 1: Lead with the headline number. 2025 broke records. Give immediate context.
-- Paragraph 2: Preview what the data revealed. What patterns emerged? What surprised you?
-- Paragraph 3: Why this matters to practitioners. What should they pay attention to?
+CRITICAL - INTRODUCTION REPLACEMENT:
+You MUST replace the introduction paragraph(s) with this EXACT text (keep the header and byline):
+
+{JERRY_INTRO_TEXT}
+
+Do NOT modify this text. Use it verbatim.
 """ if is_intro else ""
     
     return f"""You are writing for Senior Security Engineers and CISOs. This is a technical data analysis.
+
+TIME CONTEXT (CRITICAL):
+- The current year is 2026. We are analyzing 2025 data.
+- NEVER refer to '2023' or '2024' as "current" or "recent trends"
+- 2025 is the subject year of this analysis
 
 AUDIENCE RULE (CRITICAL):
 - NEVER define 'CVE', 'vulnerability', 'patch', 'zero-day', or 'exploit'. Your readers know these terms.

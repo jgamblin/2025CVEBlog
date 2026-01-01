@@ -104,6 +104,77 @@ def load_data_with_rejected():
     return nvd_df, cvelist_df
 
 
+def normalize_data(df):
+    """
+    Normalize and clean CVE data for accurate analysis.
+    - Strict 2025 cutoff
+    - Product name normalization (for product/vendor columns only)
+    - Version stripping
+    - Deduplication by CVE ID
+    
+    Note: Does NOT filter out missing products/vendors - that's done in graph functions.
+    """
+    if df is None:
+        return None
+    
+    df = df.copy()
+    original_len = len(df)
+    
+    # 1. STRICT 2025 CUTOFF
+    if 'year' in df.columns:
+        df = df[df['year'] <= 2025]
+    
+    # 2. PRODUCT NAME NORMALIZATION (only for rows with valid products)
+    product_mapping = {
+        'linux': 'linux_kernel',
+        'kernel': 'linux_kernel',
+        'mac_os_x': 'macos',
+        'mac_os': 'macos',
+        'ipad_os': 'ipados',
+        'iphone_os': 'ios',
+    }
+    
+    if 'product' in df.columns:
+        # Only process non-null values
+        mask = df['product'].notna()
+        df.loc[mask, 'product'] = df.loc[mask, 'product'].astype(str).str.lower().str.strip()
+        
+        # Apply product mapping
+        df['product'] = df['product'].replace(product_mapping)
+        
+        # 3. VERSION STRIPPING - Remove version numbers from Windows products
+        import re
+        def strip_windows_version(x):
+            if pd.isna(x) or not isinstance(x, str):
+                return x
+            # windows_10_1507 -> windows_10
+            x = re.sub(r'^(windows_1[01])_.*$', r'\1', x)
+            # Remove version suffixes like _21h2, _1507
+            x = re.sub(r'_(\d{2}h\d|\d{4})$', '', x)
+            return x
+        
+        df['product'] = df['product'].apply(strip_windows_version)
+    
+    if 'vendor' in df.columns:
+        # Only process non-null values
+        mask = df['vendor'].notna()
+        df.loc[mask, 'vendor'] = df.loc[mask, 'vendor'].astype(str).str.lower().str.strip()
+    
+    # 4. DEDUPLICATION - Remove duplicate CVE entries
+    if 'cve_id' in df.columns:
+        before_dedup = len(df)
+        df = df.drop_duplicates(subset=['cve_id'], keep='first')
+        dedup_count = before_dedup - len(df)
+        if dedup_count > 0:
+            print(f"  Removed {dedup_count:,} duplicate CVE entries")
+    
+    cleaned_count = original_len - len(df)
+    if cleaned_count > 0:
+        print(f"  Normalized data: removed {cleaned_count:,} rows (2026+ data)")
+    
+    return df
+
+
 # =============================================================================
 # GRAPH 1: Total CVEs by Year (Historical Growth)
 # =============================================================================
@@ -1107,6 +1178,10 @@ def main():
     if nvd_df is None and cvelist_df is None:
         print("ERROR: No data found. Run 02_process_data.py first.")
         return
+    
+    # NORMALIZE DATA - Clean and deduplicate before analysis
+    nvd_df = normalize_data(nvd_df)
+    cvelist_df = normalize_data(cvelist_df)
     
     # Generate graphs from NVD data
     if nvd_df is not None:

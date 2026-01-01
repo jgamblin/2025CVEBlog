@@ -51,6 +51,7 @@ graph_time_to_publish = graphs_module.graph_time_to_publish
 graph_day_of_week = graphs_module.graph_day_of_week
 graph_top_days = graphs_module.graph_top_days
 graph_top_products = graphs_module.graph_top_products
+normalize_data = graphs_module.normalize_data
 
 
 # =============================================================================
@@ -509,6 +510,10 @@ def main():
         print("  1. python 01_download_data.py")
         print("  2. python 02_process_data.py")
         return
+    
+    # NORMALIZE DATA - Clean and deduplicate before analysis
+    nvd_df = normalize_data(nvd_df)
+    cvelist_df = normalize_data(cvelist_df)
     
     # Use NVD as primary, CVE List V5 as secondary
     df = nvd_df if nvd_df is not None else cvelist_df
