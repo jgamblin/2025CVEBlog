@@ -134,7 +134,7 @@ The Common Weakness Enumeration (CWE) categorizes the types of security weakness
 | Rank | CWE | Name | Count |
 |------|-----|------|-------|
 | 1 | CWE-79 | XSS | 8,207 |
-| 2 | CWE-74 |  | 2,564 |
+| 2 | CWE-74 | Injection | 2,564 |
 | 3 | CWE-862 | Missing Authorization | 2,224 |
 | 4 | CWE-352 | CSRF | 1,894 |
 | 5 | CWE-89 | SQL Injection | 1,706 |
@@ -174,8 +174,8 @@ Which vendors had the most CVEs assigned to their products in 2025?
 | 1 | linux | 5,687 |
 | 2 | microsoft | 1,255 |
 | 3 | adobe | 829 |
-| 4 | code-projects | 730 |
-| 5 | apple | 727 |
+| 4 | apple | 727 |
+| 5 | ibm | 606 |
 
 ---
 

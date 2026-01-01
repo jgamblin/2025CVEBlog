@@ -718,8 +718,8 @@ def graph_top_vendors(df, top_n=20, save_path=None):
     df_2025 = df[(df['year'] == 2025) & (df['vendor'].notna())].copy()
     df_2025['vendor_clean'] = df_2025['vendor'].str.lower().str.strip()
     
-    # Filter out n/a, unknown, none values
-    exclude_values = ['n/a', 'unknown', 'none', 'na', 'n_a', '*', '']
+    # Filter out n/a, unknown, none, and generic project names
+    exclude_values = ['n/a', 'unknown', 'none', 'na', 'n_a', '*', '', 'code-projects', 'code_projects']
     df_2025 = df_2025[~df_2025['vendor_clean'].isin(exclude_values)]
     
     vendor_counts = df_2025['vendor_clean'].value_counts().head(top_n)

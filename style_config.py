@@ -85,6 +85,12 @@ CWE_NAMES = {
     'CWE-276': 'Default Permissions',
     'CWE-862': 'Missing Authorization',
     'CWE-121': 'Stack Buffer Overflow',
+    'CWE-74': 'Injection',
+    'CWE-79': 'XSS',
+    'CWE-120': 'Buffer Copy',
+    'CWE-306': 'Missing Auth',
+    'CWE-798': 'Hardcoded Creds',
+    'CWE-732': 'Incorrect Permissions',
     'NVD-CWE-noinfo': 'No Info',
     'NVD-CWE-Other': 'Other'
 }

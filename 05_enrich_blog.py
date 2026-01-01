@@ -86,41 +86,43 @@ def should_enhance_section(section):
     return not any(kw in title_lower for kw in skip_keywords)
 
 def create_enhancement_prompt(section_title, section_content):
-    """Create a prompt for enhancing a specific section with Jerry Gamblin voice"""
+    """Create a prompt for enhancing a specific section with strict anti-fluff rules"""
     
     # Special handling for intro section - needs to be longer
     is_intro = section_title.lower() in ['introduction', 'intro', '2025 cve data review', '']
     intro_instruction = """
 
 SPECIAL INSTRUCTION FOR INTRODUCTION:
-Make the introduction 2-3 paragraphs. Be conversational and set the stage:
-- Paragraph 1: Hook the reader. What makes 2025 different? Give context.
-- Paragraph 2: What will this analysis cover? Preview the key findings.
-- Paragraph 3 (optional): Why this matters to security practitioners.
+Write a 3-paragraph introduction that hooks the reader with the record-breaking volume:
+- Paragraph 1: Lead with the headline number. 2025 broke records. Give immediate context.
+- Paragraph 2: Preview what the data revealed. What patterns emerged? What surprised you?
+- Paragraph 3: Why this matters to practitioners. What should they pay attention to?
 """ if is_intro else ""
     
-    return f"""You are Jerry Gamblin. You write the popular 'Curiosity in Practice' security blog.
+    return f"""You are writing for Senior Security Engineers and CISOs. This is a technical data analysis.
 
-YOUR PERSONA:
-- Direct & Personal: Use 'I' and 'We'. (e.g., 'I found...', 'We saw...', 'I noticed a trend...').
-- Data-First: NEVER use fluffy adjectives like 'staggering', 'unprecedented', 'landscape', 'realm', 'critical juncture'. Let the numbers speak for themselves.
-- Concise: Short paragraphs. No filler sentences. If a chart explains it, don't describe the bars—explain the *implication*.
-- Active Voice: Always prefer active voice over passive. ("I analyzed" not "The data was analyzed").
+AUDIENCE RULE (CRITICAL):
+- NEVER define 'CVE', 'vulnerability', 'patch', 'zero-day', or 'exploit'. Your readers know these terms.
+- NEVER explain what CVSS scores mean. They know.
+- NEVER use phrases like "vulnerabilities are security flaws" or "CVEs are identifiers for..."
+
+VOICE & STYLE:
+- Authoritative and analytical. Use active verbs: 'The data shows...', 'We observed...', 'I found...'
+- DELETE all transition fluff: 'Let's dive in', 'It is important to note', 'As we can see', 'Moving on to'
+- DELETE all marketing adjectives: 'staggering', 'unprecedented', 'critical juncture', 'landscape', 'realm'
+- Short paragraphs. Dense with insight. If a chart shows it, explain the *implication*, not the bars.
 {intro_instruction}
-TASK: Enhance the provided section. Keep ALL statistics and markdown tables exactly as they are.
-
-LINKING REQUIREMENT - You MUST add these links:
-- Link CWEs to: https://cwe.mitre.org/data/definitions/{{number}}.html
-  Example: [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
-- Link Vendors/Products to NVD search: https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor={{name}}
-  Example: [Microsoft](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=microsoft)
+LINKING REQUIREMENT (MANDATORY):
+You MUST convert technical terms to Markdown links:
+- Every CWE mention: [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
+- Every vendor mention: [Linux](https://nvd.nist.gov/vuln/search/results?form_type=Advanced&results_type=overview&search_type=all&isCpeNameSearch=false&cpe_vendor=linux)
 
 RULES:
-1. Keep ALL statistics, numbers, and data points EXACTLY as they are
+1. Keep ALL statistics, numbers, percentages EXACTLY as provided
 2. Keep ALL markdown formatting (headers, tables, images) intact
 3. Do NOT change image paths or table data
-4. Do NOT increase text length by more than 10% (except Introduction which should be longer)
-5. Return the enhanced markdown only, no explanations or preamble
+4. Do NOT increase text length by more than 10% (except Introduction)
+5. Return ONLY the enhanced markdown, no preamble or explanation
 
 SECTION TITLE: {section_title}
 
