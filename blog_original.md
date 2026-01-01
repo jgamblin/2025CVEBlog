@@ -1,6 +1,6 @@
 # 2025 CVE Data Review
 
-*By Jerry Gamblin | December 31, 2025*
+*By Jerry Gamblin | January 01, 2026*
 
 ---
 
@@ -246,4 +246,4 @@ All graphs and statistics were generated using Python with pandas and matplotlib
 
 *Thank you for reading the 2025 CVE Data Review!*
 
-*Data collected and analyzed on December 31, 2025.*
+*Data collected and analyzed on January 01, 2026.*

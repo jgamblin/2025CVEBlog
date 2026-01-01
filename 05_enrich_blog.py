@@ -89,7 +89,7 @@ def should_enhance_section(section):
 # The EXACT introduction text Jerry wants
 JERRY_INTRO_TEXT = """2025 set a new baseline with 48,000+ published CVEs. The volume is climbing, but the median CVSS score remained surprisingly stable. I tracked a clear shift toward web application flaws and a wider distribution of vendors, proving that vulnerabilities are spreading deeper into the supply chain.
 
-This massive growth in data is exactly why I started RogoLabs this year. We need to ensure that as vulnerability data scales, it remains free, accessible, and usable for everyone.
+This massive growth is exactly why I launched RogoLabs. We are building free tools like [cve.icu](https://cve.icu) (real-time tracking), [cnascorecard.org](https://cnascorecard.org) (CNA performance), and [cveforecast.org](https://cveforecast.org) (predictive modeling) to ensure vulnerability data remains accessible and usable for the community.
 
 The takeaway for engineers is simple: you can't patch everything. With volume at this level, your only move is to ruthlessly prioritize based on exploitability and automate the rest."""
 

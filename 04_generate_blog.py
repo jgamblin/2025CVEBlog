@@ -214,9 +214,13 @@ def calculate_stats(df, cvelist_df, full_nvd_df=None, full_cvelist_df=None):
 def generate_blog(stats, top_cwes, top_cnas, top_vendors, peak_month, peak_count, cumulative_total, rejected_stats=None, day_stats=None, top_days=None, top_products=None):
     """Generate the Markdown blog post"""
     
+    # Dynamic date - use current date
+    from datetime import datetime
+    current_date = datetime.now().strftime("%B %d, %Y")
+    
     blog = f"""# 2025 CVE Data Review
 
-*By Jerry Gamblin | December 31, 2025*
+*By Jerry Gamblin | {current_date}*
 
 ---
 
@@ -488,7 +492,7 @@ All graphs and statistics were generated using Python with pandas and matplotlib
 
 *Thank you for reading the 2025 CVE Data Review!*
 
-*Data collected and analyzed on December 31, 2025.*
+*Data collected and analyzed on {current_date}.*
 """
 
     return blog
