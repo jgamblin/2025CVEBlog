@@ -945,11 +945,6 @@ def graph_day_of_week(df, save_path=None):
                label=f'Daily Average: {avg:,.0f}')
     ax.legend(loc='upper left')
     
-    # Add "Patch Tuesday" annotation
-    ax.annotate('Patch Tuesday', xy=(1, day_counts[1]), xytext=(2.5, day_counts[1] * 1.1),
-                arrowprops=dict(arrowstyle='->', color=COLORS['secondary']),
-                fontsize=ANNOTATION_SIZE, color=COLORS['secondary'])
-    
     ax.yaxis.set_major_formatter(get_thousands_formatter())
     
     plt.tight_layout()
