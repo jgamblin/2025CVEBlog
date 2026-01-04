@@ -1,0 +1,38 @@
+{
+  "total_cves": 48186,
+  "with_vulnogram": 13801,
+  "with_other_generator": 8540,
+  "no_generator": 25845,
+  "vulnogram_percentage": 28.6,
+  "other_generator_percentage": 17.7,
+  "no_generator_percentage": 53.6,
+  "rejected_excluded": 277,
+  "vulnogram_versions": {
+    "Vulnogram 0.2.0": 11974,
+    "Vulnogram 0.5.0": 848,
+    "Vulnogram 0.1.0-dev": 808,
+    "Vulnogram 0.4.0": 151,
+    "Vulnogram 0.3.0": 14,
+    "Vulnogram 0.1.0-av217": 3,
+    "vulnogram": 1,
+    "vulnogram 0.2.0": 1,
+    "vulnogram 0.1.0-rc1": 1
+  },
+  "other_generators": {
+    "bippy-1.2.0": 5687,
+    "vulncheck": 715,
+    "enrichogram 0.0.1": 698,
+    "WPScan CVE Generator": 595,
+    "cvelib 1.7.1": 245,
+    "cvelib 1.8.0": 117,
+    "NVIDIA PSIRT": 112,
+    "F5 SIRTBot v1.0": 81,
+    "ibm-cvegen": 76,
+    "AMD PSIRT Automation 1.0": 42,
+    "CVE-Request-form 0.0.1": 38,
+    "cveClient/1.0.15": 22,
+    "csaf2cve 0.2.1": 20,
+    "csaf2cve 0.2.0": 19,
+    "Elastic CVE Publisher 0.0.1": 12
+  }
+}
