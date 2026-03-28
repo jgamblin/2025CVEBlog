@@ -209,3 +209,6 @@ __marimo__/
 # Data files
 data/
 processed/
+
+# Claude Code
+.claude/
