@@ -22,10 +22,10 @@ COLORS = {
     'primary': '#1e3a5f',      # Deep Navy - main bars/lines
     'secondary': '#64748b',    # Slate - secondary elements
     'accent': '#3d6a99',       # Medium blue - tertiary elements
-    
+
     # Alert/highlight
     'alert': '#dc2626',        # High-contrast Red - current year/alerts
-    
+
     # Neutral tones
     'neutral': '#94a3b8',      # Light slate - muted elements
     'light': '#cbd5e1',        # Very light slate - backgrounds
@@ -86,7 +86,6 @@ CWE_NAMES = {
     'CWE-862': 'Missing Authorization',
     'CWE-121': 'Stack Buffer Overflow',
     'CWE-74': 'Injection',
-    'CWE-79': 'XSS',
     'CWE-120': 'Buffer Copy',
     'CWE-306': 'Missing Auth',
     'CWE-798': 'Hardcoded Creds',
@@ -105,17 +104,17 @@ def apply_style():
         'font.family': 'sans-serif',
         'font.sans-serif': ['Arial', 'Helvetica', 'DejaVu Sans', 'sans-serif'],
         'font.size': TICK_SIZE,
-        
+
         # Title settings
         'axes.titlesize': TITLE_SIZE,
         'axes.titleweight': 'bold',
         'axes.titlepad': 15,
-        
+
         # Label settings
         'axes.labelsize': LABEL_SIZE,
         'axes.labelweight': 'bold',
         'axes.labelpad': 8,
-        
+
         # Spine settings - clean look, no top/right
         'axes.spines.top': False,
         'axes.spines.right': False,
@@ -123,14 +122,14 @@ def apply_style():
         'axes.spines.bottom': True,
         'axes.edgecolor': COLORS['secondary'],
         'axes.linewidth': 0.8,
-        
+
         # Background - clean white
         'axes.facecolor': 'white',
         'figure.facecolor': 'white',
         'figure.edgecolor': 'white',
         'savefig.facecolor': 'white',
         'savefig.edgecolor': 'white',
-        
+
         # Grid - light grey, y-axis only by default
         'axes.grid': True,
         'axes.grid.axis': 'y',
@@ -138,7 +137,7 @@ def apply_style():
         'grid.linewidth': 0.5,
         'grid.alpha': 0.7,
         'grid.linestyle': '-',
-        
+
         # Tick settings
         'xtick.labelsize': TICK_SIZE,
         'ytick.labelsize': TICK_SIZE,
@@ -146,14 +145,14 @@ def apply_style():
         'ytick.color': COLORS['text'],
         'xtick.direction': 'out',
         'ytick.direction': 'out',
-        
+
         # Legend settings
         'legend.fontsize': LEGEND_SIZE,
         'legend.frameon': True,
         'legend.framealpha': 0.9,
         'legend.edgecolor': COLORS['light'],
         'legend.facecolor': 'white',
-        
+
         # Figure settings
         'figure.titlesize': TITLE_SIZE,
         'figure.titleweight': 'bold',
@@ -185,16 +184,16 @@ def save_figure(fig, filepath, dpi=None):
     """Save figure with consistent settings and watermark"""
     if dpi is None:
         dpi = SAVE_DPI
-    
+
     # Add watermark to lower right corner
-    fig.text(0.98, 0.02, WATERMARK_TEXT, 
+    fig.text(0.98, 0.02, WATERMARK_TEXT,
              transform=fig.transFigure,
              fontsize=10, color=COLORS['secondary'],
              alpha=WATERMARK_ALPHA,
              ha='right', va='bottom',
              fontweight='bold',
              fontstyle='italic')
-    
+
     fig.savefig(filepath, dpi=dpi, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
     plt.close(fig)
