@@ -11,4 +11,4 @@ pyarrow>=17.0.0,<18.0  # For parquet support
 google-generativeai>=0.8.0,<1.0  # Gemini API
 
 # Testing
-pytest>=8.0.0,<9.0
+pytest>=9.0.3
